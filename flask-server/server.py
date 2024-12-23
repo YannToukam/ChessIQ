@@ -15,8 +15,7 @@ stockfish = Stockfish(stockfish_path)
 stockfish.set_depth(16)
 stockfish.set_skill_level(16)
 
-INACCURACY_THRESHOLD = 30
-MISTAKE_THRESHOLD = 50
+MISTAKE_THRESHOLD = 100
 BLUNDER_THRESHOLD = 150
 
 
@@ -42,9 +41,8 @@ def analyze_pgn():
 
         def error_classifier(cp1, cp2, player_move, board_fen):
             error_type = None
-            if INACCURACY_THRESHOLD <= (cp1 - cp2) < MISTAKE_THRESHOLD:
-                error_type = 'Inaccuracy'
-            elif MISTAKE_THRESHOLD <= (cp1 - cp2) < BLUNDER_THRESHOLD:
+            
+            if MISTAKE_THRESHOLD <= (cp1 - cp2) < BLUNDER_THRESHOLD:
                 error_type = 'Mistake'
             elif (cp1 - cp2) >= BLUNDER_THRESHOLD:
                 error_type = 'Blunder'
