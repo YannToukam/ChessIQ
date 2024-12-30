@@ -18,6 +18,9 @@ stockfish.set_skill_level(16)
 MISTAKE_THRESHOLD = 100
 BLUNDER_THRESHOLD = 150
 
+type_errors = {}
+
+
 
 @app.route('/analyze', methods=['POST'])
 def analyze_pgn():
@@ -37,7 +40,7 @@ def analyze_pgn():
         # Process moves
         board = chess.Board()
         move_cp_value = []
-        type_errors = {}
+        
 
         def error_classifier(cp1, cp2, player_move, board_fen):
             error_type = None
@@ -73,6 +76,13 @@ def analyze_pgn():
     except Exception as e:
         return jsonify({'error': str(e)}), 500
 
+@app.route('/gameAnalysis', methods=['GET'])
+def get_computer_moves():
+    for desc in type_errors.values():
+        stockfish.set_fen_position(desc['board_fen'])
+        best_move = stockfish.get_best_move()
+        print(best_move +"\n")
+        return jsonify({'best_move': best_move})
 
 if __name__ == '__main__':
     app.run(debug=True)
