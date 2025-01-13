@@ -5,6 +5,8 @@ import tqdm
 from flask import Flask, request, jsonify
 from flask_cors import CORS
 from stockfish import Stockfish
+import os
+from groq import Groq
 
 app = Flask(__name__)
 CORS(app)
@@ -17,9 +19,6 @@ stockfish.set_skill_level(16)
 
 MISTAKE_THRESHOLD = 100
 BLUNDER_THRESHOLD = 150
-
-type_errors = {}
-
 
 
 @app.route('/analyze', methods=['POST'])
@@ -40,9 +39,9 @@ def analyze_pgn():
         # Process moves
         board = chess.Board()
         move_cp_value = []
-        
+        type_errors = {}
 
-        def error_classifier(cp1, cp2, player_move, board_fen):
+        def error_classifier(cp1, cp2, player_move, prev_board_fen, current_board_fen):
             error_type = None
             
             if MISTAKE_THRESHOLD <= (cp1 - cp2) < BLUNDER_THRESHOLD:
@@ -51,7 +50,7 @@ def analyze_pgn():
                 error_type = 'Blunder'
 
             if error_type:
-                type_errors[player_move] = {'error_type': error_type, 'board_fen': board_fen}
+                type_errors[player_move] = {'error_type': error_type, 'board_fen': prev_board_fen, 'eval_diff': cp1-cp2, 'current_board_fen': current_board_fen}
 
         for i, move in enumerate(tqdm.tqdm(game.mainline_moves())):
             board.push(move)
@@ -61,28 +60,76 @@ def analyze_pgn():
                 move_evaluation = stockfish.get_evaluation()['value']
                 move_cp_value.append(move_evaluation)
                 eval_index = i // 2
+                p_move = move.uci()[0:2] + '-' + move.uci()[2:]
                 if 0 < eval_index < len(move_cp_value):
-                    error_classifier(move_cp_value[eval_index - 1], move_cp_value[eval_index], move.uci(), previous_board)
+                    error_classifier(move_cp_value[eval_index - 1], move_cp_value[eval_index], p_move, previous_board, board.fen())
             previous_board = board.fen()
+            
+        
+        print()
+        print("-----------------------------------------------")
 
         print(f"Error moves from the player: {type_errors}")
-        # print(move_cp_value)
+       
+        ai_descriptions = {}
+        for move, desc in type_errors.items():
+            try:
+                ai_explanation = ai_description(move, desc["current_board_fen"], desc["eval_diff"])
+                ai_descriptions[move] = ai_explanation
+                type_errors[move]['ai_description'] = ai_explanation
+            except Exception as e:
+                print(f"Error generating AI description for move {move}: {str(e)}")
 
-        return jsonify({'message': 'PGN data received and processed successfully', 'errors': type_errors})
+        print(ai_descriptions)
+
+        return jsonify({'message': 'PGN data received and processed successfully', 'errors': type_errors, 'ai_descriptions': ai_descriptions})
 
     except KeyError:
         return jsonify({'error': 'PGN data not found in request'}), 400
 
     except Exception as e:
         return jsonify({'error': str(e)}), 500
-
-@app.route('/gameAnalysis', methods=['GET'])
+"""
+#@app.route('/gameAnalysis', methods=['GET'])
 def get_computer_moves():
     for desc in type_errors.values():
         stockfish.set_fen_position(desc['board_fen'])
         best_move = stockfish.get_best_move()
         print(best_move +"\n")
         return jsonify({'best_move': best_move})
+"""    
+
+
+def ai_description(player_error, fen, eval_diff):
+    # Fetch the API key from the environment
+    api_key = os.environ.get("GROQ_API_KEY")
+    
+    
+    if not api_key:
+        raise ValueError("API key is missing or invalid")
+    
+    print(f"Using API Key: {api_key}")  
+    
+    # Initialize the Groq client with the API key
+    client = Groq(api_key=api_key)
+
+    try:
+        chat_completion = client.chat.completions.create(
+            messages=[{
+                "role": "user",
+                "content": f"Analyze the chess position described by this FEN: {fen}. It was white's turn and the move {player_error} was played. Stockfish gives an evaluation difference of {eval_diff} after the white player move. This move doesn't violate chess rules, but explain in simple terms why it is a wrong move for this position. Focus strictly on the given FEN and the move. Do not assume additional threats or create hypothetical scenarios beyond what the position shows. Keep the explanation concise and relevant to the FEN."
+            
+            }],
+            model="llama-3.3-70b-versatile"
+        )
+        
+        # Return the AI-generated explanation
+        return chat_completion.choices[0].message.content
+
+    except Exception as e:
+        print(f"Error generating AI description: {e}")
+        return None
+
 
 if __name__ == '__main__':
     app.run(debug=True)
