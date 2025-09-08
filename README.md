@@ -13,18 +13,16 @@ An AI-powered chess analysis platform that integrates the **Stockfish engine** w
   - Blunder: ≥150 cp
 - 🤖 **LLM Integration**: Translates raw engine evaluations into **human-readable explanations**.  
 - ⚡ **Real-time Feedback**: Web interface streams instant evaluations and annotated errors.  
-- 📊 **Data Export**: Supports saving results as CSV for further analysis.  
 
 ---
 
 ## 🛠️ Tech Stack
 - **Backend**: Python (Flask), Stockfish engine, `python-chess` library  
 - **Frontend**: React (for interactive board & real-time visualization)  
-- **AI/ML**: GroqCloud API for LLaMA LLM integration  
+- **AI/ML**: GroqCloud API with LLaMA LLM integration  
 - **Other Tools**: tqdm, Flask-CORS
 
 ---
-
 
 ## 🚀 Getting Started
 
@@ -54,6 +52,8 @@ pip install -r requirements.txt
 - Processed full PGN games of up to 80+ moves seamlessly.
 
 --- 
+### 🎥 Live Demo
+![Demo GIF](src/ChessIQ_GIF.gif)
 
 👥 Author
 - Yann Yvan Toukam Djomo
