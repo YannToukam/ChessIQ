@@ -26,7 +26,13 @@ The goal is to make chess learning more interactive and insightful for players o
 | Category | Tools |
 |-----------|-------|
 | Frontend | React.js, JSX, CSS Modules |
-| Libraries | chess.js, chessboardjsx |
+| Libraries | chess.js, chessboardjsx, Stockfish |
+| Backend | Flask |
+| API | Groq Cloud |
+
+---
+## ⚙️ Installation
+cd ChessIQ
 
 ---
 
