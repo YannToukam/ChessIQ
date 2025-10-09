@@ -15,10 +15,15 @@ ChessIQ is an intelligent chess analysis platform that combines classical chess 
 
 ## 🛠️ Tech Stack
 
-**Frontend:** React, React Router DOM  
-**Backend:** Flask, Flask-CORS  
-**Chess Engine:** Stockfish
-**API:** Groq Cloud API
+**Frontend**
+- ⚛️ React.js (JSX Components)
+- 🎨 CSS Modules for modular styling
+
+**Backend**
+- 🐍 **Flask (Python)** — lightweight backend API for handling analysis requests
+- 🔗 **Flask-CORS** — enables secure communication between frontend and backend
+- 📡 **REST API** — serves evaluation and LLM-generated explanations
+- 🧠 **Integration with Stockfish and LLM endpoints** for hybrid reasoning
 
 ## 🚀 Installation
 
