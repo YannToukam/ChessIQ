@@ -34,11 +34,13 @@ Download Stockfish from the link above and note the path to the executable.
 
 ### Step 3: Setup Frontend
 ```bash
+cd my-appp
 npm install
 ```
 
 ### Step 4: Setup Backend
 ```bash
+# In another terminal
 cd flask-server
 python -m venv venv
 
@@ -75,7 +77,7 @@ Open `http://localhost:3000` in your browser.
 ## 👨‍💻 Author
 
 **Your Name**  
-GitHub: [@your-username](https://github.com/your-username)
+GitHub: [@YannToukam](https://github.com/YannToukam)
 
 ---
 
