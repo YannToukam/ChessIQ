@@ -1,7 +1,6 @@
 # ♟️ ChessIQ
 
 ![React](https://img.shields.io/badge/React-20232A?style=for-the-badge&logo=react&logoColor=61DAFB)
-![Vite](https://img.shields.io/badge/Vite-646CFF?style=for-the-badge&logo=vite&logoColor=white)
 ![License](https://img.shields.io/badge/License-MIT-green?style=for-the-badge)
 ![Status](https://img.shields.io/badge/status-active-success?style=for-the-badge)
 
@@ -19,8 +18,6 @@ The goal is to make chess learning more interactive and insightful for players o
 - 🧩 **Interactive chessboard** with full move visualization and position loading via FEN  
 - 🔍 **Local analysis** using Stockfish (optional engine integration)  
 - 🧠 **Move insights** — basic move explanations for educational purposes  
-- 💾 **Local game storage** using browser LocalStorage  
-- 🌙 **Light/Dark mode** for better visual comfort  
 
 ---
 
@@ -33,5 +30,9 @@ The goal is to make chess learning more interactive and insightful for players o
 
 ---
 
-## 📁 Project Structure
+##🧑‍💻 Author
+
+Yann Yvan Toukam Djomo
+Software Engineering Student @ Polytechnique Montréal
+GitHub: @YannToukam
 
