@@ -76,7 +76,7 @@ Open `http://localhost:3000` in your browser.
 
 ## 👨‍💻 Author
 
-**Your Name**  
+**Yann Yvan Toukam Djomo**  
 GitHub: [@YannToukam](https://github.com/YannToukam)
 
 ---
