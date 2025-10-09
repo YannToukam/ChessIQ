@@ -1,20 +1,24 @@
 # ♟️ ChessIQ
 
-An intelligent chess application combining React and Flask with Stockfish engine integration.
+ChessIQ is an intelligent chess analysis platform that combines classical chess engines with Large Language Models (LLMs) to provide strategic evaluations and human-like explanations of moves. It bridges the gap between engine precision and human understanding, helping players learn and improve through natural, conversational insights.
 
 ## 🎯 About
 
-ChessIQ is a modern chess application featuring:
-- Interactive chess interface built with React
-- Flask backend for game logic and analysis
-- Stockfish chess engine integration for powerful move analysis
-- Clean separation between frontend and backend for easy deployment
+- 💡 **ChessIQ** is an AI-powered chess analysis platform built to make learning and improvement more **interactive** and **explainable**.  
+- ⚙️ Combines the analytical precision of **Stockfish** with the contextual reasoning of **Large Language Models (LLMs)**.  
+- 🧠 Provides **human-like explanations** of moves, helping players understand not just *what* to play, but *why*.  
+- ♟️ Allows users to **load their own games**, visualize variations, and explore alternative strategies directly on the board.  
+- 🧩 Designed for players who want both **tactical accuracy** and **strategic understanding** in their analysis.  
+- 💬 Demonstrates how **AI explainability** can bridge the gap between **engine evaluation** and **human intuition**.  
+- 🎨 Built with a modern **React.js** interface focused on simplicity, clarity, and educational value.
+
 
 ## 🛠️ Tech Stack
 
 **Frontend:** React, React Router DOM  
 **Backend:** Flask, Flask-CORS  
 **Chess Engine:** Stockfish
+**API:** Groq Cloud API
 
 ## 🚀 Installation
 
