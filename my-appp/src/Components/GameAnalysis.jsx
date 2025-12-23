@@ -13,7 +13,7 @@ function GameAnalysis() {
 
   const errors = Object.keys(responseData.errors);
   const currentError = responseData.errors[errors[currentIndex]];
-  const [game, setGame] = useState(new Chess(currentError.board_fen));
+  const [game, setGame] = useState(new Chess(currentError.board_before_move));
 
   const description = Object.keys(responseData.ai_descriptions)
   const currentDescription = responseData.ai_descriptions[description[currentIndex]]
@@ -21,8 +21,8 @@ function GameAnalysis() {
 
 
   useEffect(() => {
-    if (currentError.board_fen) {
-      setGame(new Chess(currentError.board_fen));
+    if (currentError.board_before_move) {
+      setGame(new Chess(currentError.board_before_move));
     }
   }, [currentError]);
 

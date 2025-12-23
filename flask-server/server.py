@@ -40,6 +40,7 @@ def analyze_pgn():
 
         pgn_io = StringIO(pgn_data)
         game = chess.pgn.read_game(pgn_io)
+        
         if game is None:
             return jsonify({'error': 'Invalid PGN data'}), 400
 
@@ -70,7 +71,7 @@ def analyze_pgn():
                 move_cp_value.append(move_evaluation)
                 eval_index = i // 2
                 p_move = move.uci()[0:2] + '-' + move.uci()[2:]
-
+        
                 if 0 < eval_index < len(move_cp_value):
                     error_classifier(move_cp_value[eval_index - 1], move_cp_value[eval_index], p_move, previous_board,
                                      board.fen())
