@@ -1,5 +1,7 @@
 import chess
 from stockfish import Stockfish
+import tqdm
+from io import StringIO
 
 class ChessAnalyzer:
   def __init__(self, path, depth= 16, skill_level = 16):
@@ -36,6 +38,35 @@ class ChessAnalyzer:
     elif diff >= self.MISTAKE_THRESHOLD:
       return 'Mistake'
     return None
+  
+  def find_all_errors(self, pgn_data):
+
+    pgn_io = StringIO(pgn_data)
+    game = chess.pgn.read_game(pgn_io)
+    board = chess.Board()
+    errors = {}
+
+    for move in tqdm.tqdm(game.mainline_moves()):
+      player_color = board.turn 
+      old_fen = board.fen()
+    
+      score_before = self.get_relative_score(old_fen, player_color)
+    
+      board.push(move)
+      new_fen = board.fen()
+    
+      score_after = self.get_relative_score(new_fen, player_color)
+    
+      diff = score_before - score_after
+      if self.error_found(diff):
+        errors[move.uci()] = {
+        'error_type' : self.error_type(score_before, score_after),
+        'board_after_move' : new_fen, 
+        'board_before_move' : old_fen,
+        'color' : "White" if board.turn == chess.BLACK else "Black"
+        }
+    return (errors, score_before, score_after)
+
 
   def error_found (self, diff):
     return True if diff >= self.MISTAKE_THRESHOLD else False
